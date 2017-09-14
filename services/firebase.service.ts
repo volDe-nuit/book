@@ -30,10 +30,16 @@ export class FirebaseService {
     return this.book
   }
 
-  createBook(book: string): void  {
-     this.books.push({ content: book, done: false })
-       .catch(error => this.handleError(error))
-   }
+  createBook(book: any): void  {
+    let data = { ...book, done: false }
+    this.books.push(data)
+      .catch(error => this.handleError(error))
+  }
+
+  // createBook(book: string): void  {
+  //    this.books.push({ content: book, done: false })
+  //      .catch(error => this.handleError(error))
+  //  }
 
    // Update an existing item
    updateBook(key: string, value: any): void {

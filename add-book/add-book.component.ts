@@ -2,12 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FirebaseService } from '../services/firebase.service';
 import { Router } from '@angular/router';
 
-@Component({
-  selector: 'app-add-book',
-  templateUrl: './add-book.component.html',
-  styleUrls: ['./add-book.component.scss']
-})
-export class AddBookComponent implements OnInit {
+export class Book {
   title:any;
   authors:any;
   category:any;
@@ -15,6 +10,16 @@ export class AddBookComponent implements OnInit {
   isbn:any;
   publisher:any;
   pages:any;
+}
+
+@Component({
+  selector: 'app-add-book',
+  templateUrl: './add-book.component.html',
+  styleUrls: ['./add-book.component.scss']
+})
+export class AddBookComponent implements OnInit {
+
+  book: Book = new Book()
 
   constructor(private firebaseService:FirebaseService,
               private router:Router
@@ -22,5 +27,11 @@ export class AddBookComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  createBook() {
+    this.firebaseService.createBook(this.book)
+  }
+
+
 
 }
