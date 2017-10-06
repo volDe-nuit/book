@@ -1,0 +1,14 @@
+<h1>Book Search</h1>
+<input type="text" (keydown)="search($event)" placeholder="search books..." class="input">
+<div *ngFor="let book of books">
+  <h4>{{book?.Title}}</h4>
+  <p>
+    {{book?.author}}
+  </p>
+</div>
+<div *ngIf="books?.length < 1">
+  <hr>
+  <p>
+    No results found :(
+  </p>
+</div>
