@@ -13,15 +13,15 @@
           </div>
           <div class="form-group">
             <label>Authors</label>
-            <input class="form-control" type="text" [(ngModel)]="author" name="author" required>
+            <input class="form-control" type="text" [(ngModel)]="book.author" name="author" required>
           </div>
           <div class="form-group">
             <label>Description</label>
-            <input class="form-control" type="text" [(ngModel)]="description" name="description" required minlength="2" maxlength="70">
+            <input class="form-control" type="text" [(ngModel)]="book.description" name="description" required minlength="2" maxlength="70">
           </div>
           <div class="form-group">
             <label>Category</label>
-            <select class="form-control" type="text" [(ngModel)]="type" name="type" required>
+            <select class="form-control" type="text" [(ngModel)]="book.type" name="type" required>
               <option value="literature">Literature</option>
               <option value="politics">Politics</option>
               <option value="linguistics">Linguistics</option>
@@ -29,17 +29,17 @@
           </div>
           <div class="form-group">
             <label>ISBN</label>
-            <input class="form-control" type="number" [(ngModel)]="isbn" name="isbn" required>
+            <input class="form-control" type="number" [(ngModel)]="book.isbn" name="isbn" required>
           </div>
           <div class="form-group">
             <label>Publisher</label>
-            <input class="form-control" type="text" [(ngModel)]="publisher" name="publisher" required>
+            <input class="form-control" type="text" [(ngModel)]="book.publisher" name="publisher" required>
           </div>
           <div class="form-group">
             <label>Pages</label>
-            <input class="form-control" type="number" [(ngModel)]="pages" name="pages" >
+            <input class="form-control" type="number" [(ngModel)]="book.pages" name="pages" >
           </div>
-          <button class="btn btn-primary" (click)='createBook()' [disabled]="!title.valid">Create</button>
+          <button class="btn btn-primary" (click)='createBook()' [disabled]="!book.title">Create</button>
           <ng-template #valid>
           <p class="text-success">looks good!</p>
           </ng-template>
