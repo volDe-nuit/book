@@ -15,47 +15,20 @@ export class AddBookComponent implements OnInit {
 
   selectedFiles: FileList;
   currentUpload: Upload;
-  key;
-  title;
-  authors;
-  description;
-  category;
-  isbn;
-  publisher;
-  pages;
+  key:string;
+  title:string;
+  authors:string;
+  description:string;
+  category:string;
+  isbn:number;
+  publisher:string;
+  pages:number;
+
 
   constructor(private firebaseService:FirebaseService,
               private router:Router,
               private route:ActivatedRoute
             ) { }
-
-
-  ngOnInit() {
-    this.key = this.route.snapshot.params['key'];
-
-    this.firebaseService.getBookDetails(this.key).subscribe(upload => {
-      this.title = upload.title;
-      this.authors = upload.authors;
-      this.description = upload.description;
-      this.category = upload.category;
-      this.isbn = upload.isbn;
-      this.publisher = upload.publisher;
-      this.pages = upload.pages;
-    });
-}
-  updateUpload(){
-    let upload = {
-        title: this.title,
-        authors: this.authors,
-        description: this.description,
-        category: this.category,
-        isbn: this.isbn,
-        publisher: this.publisher,
-        pages: this.pages
-    }
-    this.firebaseService.updateUpload(this.key, Upload);
-    this.router.navigate(['/book-list']);
-   }
 
 detectFiles(event) {
       this.selectedFiles = event.target.files;
@@ -63,6 +36,28 @@ detectFiles(event) {
 uploadSingle() {
     let file = this.selectedFiles.item(0)
     this.currentUpload = new Upload(file);
-    this.firebaseService.pushUpload(this.currentUpload);
+    this.firebaseService.pushUpload(this.currentUpload).then(key => {
+   console.log(key) // your key is here
+})
   }
+
+  ngOnInit() {
+    }
+  updateUpload(key, upload){
+    let Upload = {
+
+        title: this.title,
+        authors: this.authors,
+        description: this.description,
+        category: this.category,
+        isbn: this.isbn,
+        publisher: this.publisher,
+        pages: this.pages,
+    }
+    this.firebaseService.updateUpload(this.key,upload).then(key => {
+   console.log(key)
+ })
+    this.router.navigate(['/book-list']);
+   }
+
 }
