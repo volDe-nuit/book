@@ -43,40 +43,43 @@ export class FirebaseService {
 
   //upload images
 
-    pushUpload(upload: Upload) {
-      const storageRef = firebase.storage().ref();
-      const uploadTask = storageRef.child(`${this.basePath}/${upload.file.name}`)
-        .put(upload.file);
+  // Executes the file uploading to firebase https://firebase.google.com/docs/storage/web/upload-files
+pushUpload(upload: Upload) {
+  const storageRef = firebase.storage().ref();
+  const uploadTask = storageRef.child(`${this.basePath}/${upload.file.name}`).put(upload.file);
 
-      uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-        // three observers
-        // 1.) state_changed observer
-        (snapshot) => {
-          // upload in progress
-          upload.progress = (uploadTask.snapshot.bytesTransferred / uploadTask.snapshot.totalBytes) * 100;
-          console.log(upload.progress);
-        },
-        // 2.) error observer
-        (error) => {
-          // upload failed
-          console.log(error);
-        },
-        // 3.) success observer
-        (): any => {
-          upload.imageUrl = uploadTask.snapshot.downloadURL;
-          upload.name = upload.file.name;
-          this.saveFileData(upload)
-          return undefined
-        }
-      );
+  const sub = uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+    (snapshot) =>  {
+      // upload in progress
+      const snap = snapshot as firebase.storage.UploadTaskSnapshot
+      upload.progress = (snap.bytesTransferred / snap.totalBytes) * 100
+    },
+    (error) => {
+      // upload failed
+      console.log(error)
+    },
+    ():any => {
+      // upload success
+      upload.imageUrl = uploadTask.snapshot.downloadURL
+      upload.name = upload.file.name
+      // this.saveFileData(upload)
+      return upload.file.name
     }
-    private saveFileData(upload: Upload) {
-      this.db.list(`${this.basePath}/`).push(upload).key;
-    }
+  );
+
+  return uploadTask.then(snap => this.saveFileData(upload).key )
+}
 
 
-    updateUpload(key, upload){
-         return this.db.list(`${this.basePath}/`).update(key,upload);
-       }
+// Writes the file details to the realtime db
+private saveFileData(upload: Upload) {
+  return this.db.list(`${this.basePath}/`).push(upload);
+}
+
+// Update an existing item
+
+   updateUpload(upload, key){
+     return this.db.object('books/'+ key).update(upload);
+   }
 
 }
