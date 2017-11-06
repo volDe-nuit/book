@@ -12,8 +12,8 @@ export class FirebaseService {
 
   private basePath: string = '/books';
 
-  uploads: FirebaseListObservable<Upload[]> = null; //  list of objects
-  upload: FirebaseObjectObservable<any> = null; //   single object
+  books: FirebaseListObservable<Upload[]> = null; //  list of objects
+  book: FirebaseObjectObservable<any> = null; //   single object
   folder:any;
 
 
@@ -21,24 +21,20 @@ export class FirebaseService {
 
 }
 
-  getBookList(query={}) {
-
-    this.uploads = this.db.list(this.basePath, {
+  getBookList(query={}):FirebaseListObservable<Upload[]> {
+    this.books = this.db.list(this.basePath, {
       query: query
     });
-    return this.uploads
+    return this.books
   }
 
 
   // Return a single observable item
 
   getBookDetails(key: string){
-
     const bookPath =  `${this.basePath}/${key}`;
-
-    this.upload = this.db.object(bookPath)
-    return this.upload
-
+    this.book = this.db.object('/books/'+key) as FirebaseObjectObservable<any>
+    return this.book;
   }
 
   //upload images
@@ -76,10 +72,48 @@ private saveFileData(upload: Upload) {
   return this.db.list(`${this.basePath}/`).push(upload);
 }
 
-// Update an existing item
+// Update an existing book
 
-   updateUpload(upload, key){
-     return this.db.object('books/'+ key).update(upload);
+/* updateUpload (upload: Upload){
+        //Create Root Ref
+        const storageRef = firebase.storage().ref();
+        const uploadTask = storageRef.child(`${this.basePath}/${upload.file.name}`).put(upload.file);
+
+        const sub = uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+          (snapshot) =>  {
+            // upload in progress
+            const snap = snapshot as firebase.storage.UploadTaskSnapshot
+            upload.progress = (snap.bytesTransferred / snap.totalBytes) * 100
+          },
+          (error) => {
+            // upload failed
+            console.log(error)
+          },
+          ():any => {
+            // upload success
+            upload.imageUrl = uploadTask.snapshot.downloadURL
+            upload.name = upload.file.name
+            // this.saveFileData(upload)
+            return upload.file.name
+          }
+        );
+
+        return uploadTask.then(snap => this.saveFileData(upload).key )
+      }
+
+
+      // Writes the file details to the realtime db
+      private updateFileData(upload: Upload, key: string){
+        return this.db.list(`${this.basePath}/${key}`).push(upload);
+      } */
+
+   updateBook(book, key){
+     return this.db.object('books/'+ key).update(book);
+   }
+
+// Delete an existing book
+   deleteBook(key){
+     return this.db.object('books/'+ key).remove();
    }
 
 }
