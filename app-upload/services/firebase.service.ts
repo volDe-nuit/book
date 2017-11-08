@@ -5,7 +5,6 @@ import * as firebase from 'firebase';
 import { Upload } from '../../models/upload';
 import * as _ from 'lodash';
 
-
 @Injectable()
 
 export class FirebaseService {
