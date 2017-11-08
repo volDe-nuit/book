@@ -4,6 +4,8 @@ import{ Subscription } from 'rxjs/Subscription'
 import { AppRoutingModule } from '../app-routing.module';
 import { FirebaseService } from '../services/firebase.service';
 import { RouterModule,ActivatedRoute,Routes,Router } from '@angular/router';
+import { FirebaseListObservable } from "angularfire2/database";
+
 import * as _ from 'lodash';
 
 @Component({
@@ -13,6 +15,7 @@ import * as _ from 'lodash';
 })
 export class BookListComponent implements OnInit {
 
+
   constructor(private db:AngularFireDatabase, private AppRouting: ActivatedRoute, private router: Router) { }
 
   /// unwrapped arrays from firebase
@@ -21,6 +24,7 @@ export class BookListComponent implements OnInit {
 
   /// filter-able properties
   category:  string;
+
 
   /// Active filter rules
   filters = {}
