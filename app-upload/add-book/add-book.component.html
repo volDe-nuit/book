@@ -7,9 +7,8 @@
     <div class="row">
       <div class="col-md-12">
         <div *ngIf="currentUpload">
-            <progress class="progress is-success" min=1 max=100 value="{{ currentUpload?.progress }}"></progress>
+            <progress class="progress is-success" style="width: 100%" min=1 value="{{ currentUpload?.progress }}"></progress>
             Progress: {{currentUpload?.name}} | {{currentUpload?.progress}}% Complete
-
        </div>
 
           <div class="form-group">
@@ -20,19 +19,19 @@
 
           <div class="form-group">
             <label>Title</label>
-            <input class="form-control" type="text" [(ngModel)]="upload.title" name="title" required minlength="2" maxlength="40" autofocus>
+            <input class="form-control" type="text" [(ngModel)]="title" name="title" required minlength="2" maxlength="40" autofocus>
           </div>
           <div class="form-group">
             <label>Authors</label>
-            <input class="form-control" type="text" [(ngModel)]="upload.authors" name="authors" required>
+            <input class="form-control" type="text" [(ngModel)]="authors" name="authors" required>
           </div>
           <div class="form-group">
             <label>Description</label>
-            <input class="form-control" type="text" [(ngModel)]="upload.description" name="description" required minlength="2" maxlength="70">
+            <input class="form-control" type="text" [(ngModel)]="description" name="description" required minlength="2" maxlength="70">
           </div>
           <div class="form-group">
             <label>Category</label>
-            <select class="form-control" type="text" [(ngModel)]="upload.category" name="category" required>
+            <select class="form-control" type="text" [(ngModel)]="category" name="category" required>
               <option value="literature">Literature</option>
               <option value="politics">Politics</option>
               <option value="linguistics">Linguistics</option>
@@ -40,17 +39,17 @@
           </div>
           <div class="form-group">
             <label>ISBN</label>
-            <input class="form-control" type="number" [(ngModel)]="upload.isbn" name="isbn" >
+            <input class="form-control" type="number" [(ngModel)]="isbn" name="isbn" >
           </div>
           <div class="form-group">
             <label>Publisher</label>
-            <input class="form-control" type="text" [(ngModel)]="upload.publisher" name="publisher" required>
+            <input class="form-control" type="text" [(ngModel)]="publisher" name="publisher" required>
           </div>
           <div class="form-group">
             <label>Pages</label>
-            <input class="form-control" type="number" [(ngModel)]="upload.pages" name="pages" required >
+            <input class="form-control" type="number" [(ngModel)]="pages" name="pages" required >
           </div>
-         <button class="btn btn-primary" (click)='updateUpload()'>Create</button>
+         <button class="btn btn-primary" (click)='updateBook()'>Create</button>
       </div>
     </div>
   </div>
