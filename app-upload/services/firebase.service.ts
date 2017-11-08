@@ -21,7 +21,7 @@ export class FirebaseService {
 
 }
 
-  getBookList(query={}):FirebaseListObservable<Upload[]> {
+  getBookList(query={}){
     this.books = this.db.list(this.basePath, {
       query: query
     });
@@ -33,7 +33,7 @@ export class FirebaseService {
 
   getBookDetails(key: string){
     const bookPath =  `${this.basePath}/${key}`;
-    this.book = this.db.object('/books/'+key) as FirebaseObjectObservable<any>
+    this.book = this.db.object('/books/'+key)
     return this.book;
   }
 
