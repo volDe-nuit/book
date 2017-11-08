@@ -1,5 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { FirebaseService } from '../services/firebase.service';
+import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Upload } from '../../models/upload';
 
@@ -29,6 +30,7 @@ currentUpload: Upload; */
 
 
   constructor(private fbs:FirebaseService,
+              private flashMsgeService: FlashMessagesService,
               private router:Router,
               private route:ActivatedRoute
             ) { }
@@ -60,6 +62,7 @@ currentUpload: Upload; */
       this.fbs.pushUpload(this.currentUpload).then(key => {
        this.$key = key
        })
+       this.flashMsgeService.show("Image filed changed!", {cssClass: "alert-success", timeout: 3000});
      }
 */
 
@@ -75,6 +78,7 @@ currentUpload: Upload; */
           pages: this.pages,
       }
       this.fbs.updateBook(this.$key, book);
+      this.flashMsgeService.show("book has been successfully updated !!", {cssClass: "alert-success", timeout: 9000});
       this.router.navigate(['/book-list']);
     }
 
