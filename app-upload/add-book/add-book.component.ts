@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FirebaseService } from '../services/firebase.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { FlashMessagesService } from 'angular2-flash-messages';
 import { Upload } from '../../models/upload';
 import * as _ from 'lodash';
 
@@ -10,7 +11,7 @@ import * as _ from 'lodash';
   styleUrls: ['./add-book.component.scss']
 })
 
-export class AddBookComponent implements OnInit {
+export class AddBookComponent {
 
 
   selectedFiles: FileList;
@@ -24,8 +25,8 @@ export class AddBookComponent implements OnInit {
   publisher:string;
   pages:number;
 
-
   constructor(private firebaseService:FirebaseService,
+              private flashMsgeService: FlashMessagesService,
               private router:Router,
               private route:ActivatedRoute
             ) { }
@@ -37,15 +38,12 @@ uploadSingle() {
     let file = this.selectedFiles.item(0)
     this.currentUpload = new Upload(file);
     this.firebaseService.pushUpload(this.currentUpload).then(key => {
-   console.log(key) // your key is here
-})
-  }
+     this.key = key
+   })
+}
 
-  ngOnInit() {
-    }
-  updateUpload(key, upload){
-    let Upload = {
-
+  updateBook (){
+    let book = {
         title: this.title,
         authors: this.authors,
         description: this.description,
@@ -54,10 +52,8 @@ uploadSingle() {
         publisher: this.publisher,
         pages: this.pages,
     }
-    this.firebaseService.updateUpload(this.key,upload).then(key => {
-   console.log(key)
- })
+    this.firebaseService.updateBook(book, this.key);
+    this.flashMsgeService.show("New book has been successfully added !!", {cssClass: "alert-success", timeout: 9000});
     this.router.navigate(['/book-list']);
    }
-
 }
